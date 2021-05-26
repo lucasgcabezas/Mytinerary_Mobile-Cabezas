@@ -1,12 +1,12 @@
 import React from 'react'
-import { Entypo, Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'; 
 import { Text, View, StyleSheet, StatusBar, ScrollView, Image, ImageBackground } from 'react-native'
 
 const Navbar = ({props}) => {
     return (
         <View style={styles.navbarContainer}>
             {/* <Entypo name="menu" size={40} color="white" /> */}
-            <Ionicons name="md-menu" size={45} color="white" style={styles.menuButton} onPress={() => props.navigation.openDrawer()}/>
+            <Ionicons name="chevron-back-outline" size={45} color="white" style={styles.menuButton} onPress={() => props.navigation.goBack()}/>
             <ImageBackground source={require('../assets/isologo.png')} style={styles.logoText} />
         </View>
 

@@ -1,28 +1,44 @@
-// const initialState = {
-//     userLogged: null,
-//     userAdm: false
-// }
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-// const authReducer = (state = initialState, action) => {
+const initialState = {
+    userLogged: null,
+    userAdm: false
+}
 
-//     switch (action.type) {
-//         case 'LOG_USER':
-//             localStorage.setItem('userLogged', JSON.stringify({ firstName: action.payload.firstName, userPic: action.payload.userPic }))
-//             localStorage.setItem('token', action.payload.token)
-//             return { ...state, userLogged: action.payload }
+const authReducer = (state = initialState, action) => {
 
-//         case 'LOGOUT_USER':
-//             localStorage.clear()
-//             return { ...state, userLogged: null }
+    switch (action.type) {
+        case 'LOG_USER':
+            const saveInStorage = async () => {
+                const parsedInfo = JSON.stringify({ firstName: action.payload.firstName, userPic: action.payload.userPic })
+                try {
+                    await AsyncStorage.setItem('userLogged', parsedInfo)
+                    await AsyncStorage.setItem('token', action.payload.token)
+                } catch (error) {
+                    alert(error)
+                }
+            }
+            saveInStorage()
+            return { ...state, userLogged: action.payload }
 
-//         case 'CHECK_ADMIN':
-//             // console.log(action.payload)
-//             return { ...state, userAdm: action.payload }
+        case 'LOGOUT_USER':
+            const clearStorage = async () => {
+                try {
+                    await AsyncStorage.clear()
+                } catch (error) {
+                    alert(error)
+                }
+            }
+            clearStorage()
+            return { ...state, userLogged: null }
 
-//         default:
-//             return state
-//     }
-// }
+        case 'CHECK_ADMIN':
+            return { ...state, userAdm: action.payload }
 
-// export default authReducer
+        default:
+            return state
+    }
+}
+
+export default authReducer
 

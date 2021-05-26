@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Text, View, StyleSheet, StatusBar, ScrollView, Image, ImageBackground, TextInput, Dimensions } from 'react-native'
+import { Text, View, StyleSheet, StatusBar, ScrollView, Image, ImageBackground, TextInput, Dimensions, ActivityIndicator, ToastAndroid } from 'react-native'
 import cityActions from '../redux/actions/cityActions'
 import Navbar from '../components/Navbar'
+import CityCards from '../components/CityCards'
+import authActions from '../redux/actions/authActions'
 
 const Cities = (props) => {
-    const { loadAllCities, filterCity, citiesFiltered, loading } = props
+    const { loadAllCities, filterCity, citiesFiltered, loading, userLogged } = props
 
     useEffect(() => { loadAllCities() }, [])
 
-    const getInput = (e) => {
-        filterCity(e)
-    }
+    const getInput = (e) => { filterCity(e) }
+
 
     return (
         <>
@@ -19,24 +20,16 @@ const Cities = (props) => {
             <Navbar props={props} />
             <ScrollView style={styles.scrollCities}>
                 <View style={styles.citiesContainer}>
-                    <TextInput
-                        placeholder="What is the destination of your dreams?"
-                        placeholderTextColor="#2d003d99"
-                        style={styles.filterCities}
-                        onChangeText={getInput}
-                    />
-                    {loading
-                        ? <Text>Loading</Text>
-                        : citiesFiltered.length === 0
-                            ? <Text>No hay ciudades disponibles</Text>
-                            : citiesFiltered.map(city => {
-                                return <View style={styles.cardCities} key={city._id}>
-                                    <Image source={{ uri: city.img }} style={styles.imgCities}>
-                                    </Image>
-                                    <Text style={styles.cityTitle}>{city.name}</Text>
-                                    {/* <Text>{city.country}</Text> */}
-                                </View>
-                            })
+                    <TextInput placeholder="What is the destination of your dreams?" placeholderTextColor="#2d003d99"
+                        style={styles.filterCities} onChangeText={getInput} />
+                    {
+                        loading
+                            ? <ActivityIndicator size="large" color="#00ff00" />
+                            : citiesFiltered.length === 0
+                                ? <Text>No hay ciudades disponibles</Text>
+                                : citiesFiltered.map(city => {
+                                    return <CityCards key={city._id} city={city} citiesProps={props} />
+                                })
                     }
                 </View>
             </ScrollView>
@@ -49,14 +42,12 @@ let ScreenHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
     scrollCities: {
-        // flex: 1,
         height: ScreenHeight,
-
     },
 
     citiesContainer: {
         flex: 1,
-        backgroundColor: '#2d003d',
+        backgroundColor: '#ffffff',
         justifyContent: 'flex-start',
         alignItems: 'center',
         minHeight: ScreenHeight,
@@ -67,60 +58,31 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffffcc',
         borderColor: '#ffffff',
         borderWidth: 1,
-        width: '90%',
+        width: '95%',
         height: 50,
         borderRadius: 10,
         paddingLeft: 20,
         color: '#2d003d',
         marginTop: 5,
         marginBottom: 15,
-        fontSize: 16
-
-    },
-
-    cardCities: {
-        width: '90%',
-        backgroundColor: '#ffffffee',
-        justifyContent: 'center',
-        alignItems: 'center',
-        // paddingHorizontal: 10,
-        // paddingTop: 10,
-        marginVertical: 20,
-        
-
-    },
-
-    imgCities: {
-        width: '95%',
-        height: 200,
-        // marginHorizontal: 10,
-        marginVertical: 10
-
-    },
-
-    cityTitle: {
-        // marginVertical: 30,
-        paddingVertical: 15,
-        textAlign: 'center',
-        width: '100%',
-        backgroundColor: '#2d003d15',
-        color: '#ffffff',
-        color: '#2d003d',
-        fontSize: 40
+        fontSize: 16,
+        borderColor: '#2d003d',
+        borderWidth: 2
     }
 })
-
 
 const mapStateToProps = state => {
     return {
         citiesFiltered: state.cityReducer.citiesFiltered,
-        loading: state.cityReducer.loading
+        loading: state.cityReducer.loading,
+        userLogged: state.authReducer.userLogged,
     }
 }
 
 const mapDispatchToProps = {
     loadAllCities: cityActions.allCities,
-    filterCity: cityActions.filterCity
+    filterCity: cityActions.filterCity,
+    signOut: authActions.signOut
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cities)

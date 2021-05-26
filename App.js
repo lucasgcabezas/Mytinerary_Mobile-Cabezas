@@ -1,35 +1,26 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-
-import { applyMiddleware, createStore } from 'redux'
 import { Provider } from 'react-redux'
+import { applyMiddleware, createStore } from 'redux'
 
 import thunk from 'redux-thunk'
 import rootReducer from './redux/reducers/rootReducer'
 
-import Drawer from './navigation/Drawer'
-import Stack from './navigation/Stack'
-import Cities from './screens/Cities'
-import SignUp from './screens/SignUp'
+import AppContainer from './AppContainer'
 
-const myTineraryStore = createStore(rootReducer , applyMiddleware(thunk))
+const myTineraryStore = createStore(rootReducer, applyMiddleware(thunk))
 
 
-const App = () => {
+const App = (props) => {
     return (
         <Provider store={myTineraryStore}>
-            <NavigationContainer>
-                {/* <Cities /> */}
-                {/* <Stack /> */}
-                <Drawer />
-                {/* <SignUp /> */}
-            </NavigationContainer>
+            <AppContainer />
         </Provider>
-
     )
 }
 
+
 export default App
+
 
 
