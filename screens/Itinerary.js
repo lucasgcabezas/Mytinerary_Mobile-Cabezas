@@ -108,8 +108,8 @@ const Itinerary = (props) => {
 
                     <View style={{flexDirection: 'row',marginTop: 5, marginBottom: 20}}>
                         {
-                            hashtags.map(hash =>{
-                                return <Text style={{marginRight: 5, color: '#999999'}}>#{hash}</Text>
+                            hashtags.map((hash,i) =>{
+                                return <Text key={i} style={{marginRight: 5, color: '#999999'}}>#{hash}</Text>
                             })
                         }
                     </View>
