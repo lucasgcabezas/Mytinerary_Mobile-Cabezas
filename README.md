@@ -17,14 +17,16 @@ Aplicacion nativa desarrollada para iOS y Android como parte del programa de pro
 
 
 ### Visualizar la app
-`Escanear codigo QR provisto en metro bundler en tu celular bajo app expo instalada previamente 
+```
+Escanear codigo QR provisto en metro bundler en tu celular bajo app expo instalada previamente 
 o elegir opcion: run in browser. (Puede que no este 100% optimizada ya que el navegador no 
-funciona de la misma manera que un dispositivo móvil)`
+funciona de la misma manera que un dispositivo móvil)
+```
 
 
 
 # Construido con 🛠️
-* [React Native](https://reactnative.dev/) - Libreria de Frontend
+* [React Native](https://reactnative.dev/) - Lenguaje de Frontend
 * [CSS3](https://developer.mozilla.org/es/docs/Web/CSS) - Lenguaje de estilos
 * [Redux](https://es.redux.js.org/) - Libreria para manejo del estado
 * [Node](https://nodejs.org/es/) - Entorno de ejecución para JavaScript 
